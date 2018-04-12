@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
     private StreetViewPanorama sStreet;
 
-    @Override  
+    @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
         setContentView(R.layout.activity_maps);
