@@ -34,8 +34,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
     public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
         panorama.setPosition(new LatLng(33.811814,151.025127));
     }*/
-
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     private GoogleMap mMap;
