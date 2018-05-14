@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -18,24 +17,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:context="com.onclicklistenerimageview_android_examples.com.MainActivity">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/opera" />
+
+        </RelativeLayout>
+
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/imageView0"
+            android:clickable="true"
+            android:onClick="imageClick"
             android:layout_width="201dp"
             android:layout_height="88dp"
-            app:srcCompat="@drawable/paris" />
+            android:src="@drawable/opera" />
 
         <ImageView
             android:id="@+id/imageView2"
+            android:clickable="true"
+            android:onClick="imageClick"
             android:layout_width="161dp"
             android:layout_height="88dp"
-            app:srcCompat="@drawable/opera" />
+            android:src="@drawable/paris" />
 
         <ImageView
             android:id="@+id/imageView3"
+            android:clickable="true"
+            android:onClick="imageClick"
             android:layout_width="164dp"
             android:layout_height="88dp"
-            app:srcCompat="@drawable/venice" />
-
+            android:src="@drawable/venice" />
 
     </LinearLayout>
 
@@ -71,7 +92,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="540dp"
+        android:layout_height="570dp"
         tools:context=".MapsActivity" />
 
 

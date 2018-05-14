@@ -1,8 +1,10 @@
 package com.example.zarar.streetview;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,6 +15,9 @@ import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+
+
 
 /*public class MapsActivity extends FragmentActivity implements OnStreetViewPanoramaReadyCallback {
 
@@ -33,6 +38,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
     public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
         panorama.setPosition(new LatLng(33.811814,151.025127));
     }*/
+
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     private GoogleMap mMap;
@@ -53,10 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
     }
 
-
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
-        panorama.setPosition(new LatLng(-33.858032, 151.214653));
+        panorama.setPosition(new LatLng(-33.858398, 151.213572));
     }
 
 
@@ -75,10 +81,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng wsu = new LatLng(-33.858032, 151.214653);
+        LatLng wsu = new LatLng(-33.858398, 151.213572);
         mMap.addMarker(new MarkerOptions().position(wsu).title("My Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wsu));
         mMap.setMyLocationEnabled(true);
+    }
+
+}
+
+
+class Main extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.opera);
+        setContentView(imageView);
+    }
+}
+
+class Test extends Activity {
+
+    public void imageClick(ImageView view) {
+        //Implement image click function
     }
 }
 //make some changes
