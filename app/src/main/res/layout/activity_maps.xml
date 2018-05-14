@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,10 +10,34 @@
         android:id="@+id/streetviewpanorama"
         android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        tools:context=".MapsActivity"
+        android:layout_height="473dp"
+        tools:context=".MapsActivity"></fragment>
 
-        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="201dp"
+            android:layout_height="88dp"
+            app:srcCompat="@drawable/paris" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="161dp"
+            android:layout_height="88dp"
+            app:srcCompat="@drawable/opera" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="164dp"
+            android:layout_height="88dp"
+            app:srcCompat="@drawable/venice" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,7 +71,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="540dp"
         tools:context=".MapsActivity" />
 
 
