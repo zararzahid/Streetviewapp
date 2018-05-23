@@ -8,8 +8,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/streetviewpanorama"
         android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
-        android:layout_width="match_parent"
-        android:layout_height="473dp"
+        android:layout_width="800dp"
+        android:layout_height="600dp"
         tools:context=".MapsActivity"></fragment>
 
 
@@ -17,25 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
 
-            tools:context="com.onclicklistenerimageview_android_examples.com.MainActivity">
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/opera" />
-
-        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/imageView0"
+            android:id="@+id/imageView1"
             android:clickable="true"
             android:onClick="imageClick"
             android:layout_width="201dp"
@@ -58,41 +43,22 @@
             android:layout_height="88dp"
             android:src="@drawable/venice" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-        <EditText
-            android:id="@+id/TFaddress"
-            android:layout_width="715dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:ems="10"
-            android:hint="Search Google Maps"
-            android:textColor="@android:color/black" />
-
         <Button
-            android:id="@+id/button"
-            android:layout_width="264dp"
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:background="@android:color/white"
-            android:text="Street View"></Button>
-
+            android:layout_weight="1"
+            android:text="Satellite" />
 
     </LinearLayout>
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_width="800dp"
+        android:layout_height="600dp"
         tools:context=".MapsActivity" />
 
 

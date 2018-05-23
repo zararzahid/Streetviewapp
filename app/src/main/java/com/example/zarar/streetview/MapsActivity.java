@@ -1,9 +1,10 @@
 package com.example.zarar.streetview;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private StreetViewPanorama sStreet;
+    private LatLng wsu = new LatLng(-33.858398, 151.213572);
+    private LatLng paris = new LatLng(48.858093, 2.294694);
+
 
 
     @Override
@@ -55,9 +59,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        final Button button = findViewById(R.id.type);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
+                    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    button.setText("Map");
+                } else {
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    button.setText("Satellite");
+                }
+            }
+        });
+
+
         StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getFragmentManager()
                 .findFragmentById(R.id.streetviewpanorama);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+
+
+        // HEY DAVE WE ARE HAVING AN ISSUE BELOW HERE WITH LAT LONG AND PANO ID SEE CAMS EMAIL FOR MORE INFORMATION
+
+
+
+        /*sStreet.setOnStreetViewPanoramaCameraChangeListener(new StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener() {
+            @Override
+            public void onStreetViewPanoramaCameraChange(StreetViewPanoramaCamera streetViewPanoramaCamera) {
+                StreetViewPanoramaLocation location = sStreet.getLocation();
+                String pano = "";
+
+                if(location != null && location.links != null)
+                {
+                   pano = location.panoId;
+                }
+
+                Toast.makeText(getApplicationContext(),(String)pano,Toast.LENGTH_LONG).show();
+
+               // mMap.moveCamera(CameraUpdateFactory.newLatLng();
+            }
+        });*/
+
+
+        final ImageView img1 = findViewById(R.id.imageView1);
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(paris));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                mMap.addMarker(new MarkerOptions().position(paris).title("Eiffel Tower"));
+
+
+            }
+        });
     }
 
     @Override
@@ -81,29 +136,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng wsu = new LatLng(-33.858398, 151.213572);
+
         mMap.addMarker(new MarkerOptions().position(wsu).title("My Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wsu));
+        //mMap.moveCamera(CameraUpdateFactory.zoomTo(9));
         mMap.setMyLocationEnabled(true);
     }
 
+
 }
 
 
-class Main extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        final ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.opera);
-        setContentView(imageView);
-    }
-}
-
-class Test extends Activity {
-
-    public void imageClick(ImageView view) {
-        //Implement image click function
-    }
-}
 //make some changes
