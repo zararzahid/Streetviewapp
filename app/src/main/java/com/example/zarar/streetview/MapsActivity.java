@@ -45,9 +45,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private StreetViewPanorama sStreet;
-    private LatLng wsu = new LatLng(-33.858398, 151.213572);
+    private LatLng wsu = new LatLng(-33.811269, 151.024738);
+    private LatLng opera = new LatLng(-33.858397, 151.213574);
     private LatLng paris = new LatLng(48.858093, 2.294694);
-
+    private LatLng venice = new LatLng(45.437806, 12.335567);
 
 
     @Override
@@ -101,8 +102,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });*/
 
 
-        final ImageView img1 = findViewById(R.id.imageView1);
+        //  method for on click on images and updating the map
+        ImageView img1 = findViewById(R.id.imageView1);
         img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(opera));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                mMap.addMarker(new MarkerOptions().position(opera).title("Opera House"));
+
+            }
+        });
+
+        ImageView img2 = findViewById(R.id.imageView2);
+        img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -110,9 +124,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
                 mMap.addMarker(new MarkerOptions().position(paris).title("Eiffel Tower"));
 
+            }
+        });
+
+        ImageView img3 = findViewById(R.id.imageView3);
+        img3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(venice));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                mMap.addMarker(new MarkerOptions().position(venice).title("Venice Canal"));
 
             }
         });
+
     }
 
     @Override
