@@ -1,8 +1,10 @@
 package com.example.zarar.streetview;
 
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +18,10 @@ import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+
+
 
 
 
@@ -50,6 +56,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng paris = new LatLng(48.858093, 2.294694);
     private LatLng venice = new LatLng(45.437806, 12.335567);
 
+    private static final String LOG_TAG = "Google Places Autocomplete";
+    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
+    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
+    private static final String OUT_JSON = "/json";
+    private static final String API_KEY = "------your api key here -------";
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         final Button button = findViewById(R.id.type);
         button.setOnClickListener(new View.OnClickListener() {
@@ -83,23 +99,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // HEY DAVE WE ARE HAVING AN ISSUE BELOW HERE WITH LAT LONG AND PANO ID SEE CAMS EMAIL FOR MORE INFORMATION
 
 
-
-        /*sStreet.setOnStreetViewPanoramaCameraChangeListener(new StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener() {
-            @Override
-            public void onStreetViewPanoramaCameraChange(StreetViewPanoramaCamera streetViewPanoramaCamera) {
-                StreetViewPanoramaLocation location = sStreet.getLocation();
-                String pano = "";
-
-                if(location != null && location.links != null)
-                {
-                   pano = location.panoId;
-                }
-
-                Toast.makeText(getApplicationContext(),(String)pano,Toast.LENGTH_LONG).show();
-
-               // mMap.moveCamera(CameraUpdateFactory.newLatLng();
-            }
-        });*/
 
 
         //  method for on click on images and updating the map
@@ -141,9 +140,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
     @Override
     public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
-        panorama.setPosition(new LatLng(-33.858398, 151.213572));
+        sStreet = panorama;
+
+        panorama.setPosition(opera);
+
+
+        sStreet.setOnStreetViewPanoramaChangeListener(new StreetViewPanorama.OnStreetViewPanoramaChangeListener() {
+            @Override
+            public void onStreetViewPanoramaChange(StreetViewPanoramaLocation streetViewPanoramaLocation) {
+
+
+                StreetViewPanoramaLocation location = sStreet.getLocation();
+
+                LatLng pos = location.position;
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+
+            }
+        });
+
+
+        sStreet.setOnStreetViewPanoramaCameraChangeListener(new StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener() {
+            @Override
+            public void onStreetViewPanoramaCameraChange(StreetViewPanoramaCamera streetViewPanoramaCamera) {
+
+                StreetViewPanoramaLocation location = sStreet.getLocation();
+
+                Log.d("pos", location.toString());
+
+                LatLng pos = location.position;
+
+                Log.d("pos2", pos.toString());
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+                mMap.addMarker(new MarkerOptions().position(pos).title("Marker"));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+            }
+        });
+
+
     }
 
 
@@ -165,7 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(wsu).title("My Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wsu));
-        //mMap.moveCamera(CameraUpdateFactory.zoomTo(9));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(9));
         mMap.setMyLocationEnabled(true);
     }
 

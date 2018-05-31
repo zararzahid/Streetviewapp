@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,7 +11,21 @@
         android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
         android:layout_width="800dp"
         android:layout_height="600dp"
-        tools:context=".MapsActivity"></fragment>
+        tools:context=".MapsActivity">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="Enter Place Here">
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+
+    </fragment>
 
 
     <LinearLayout
@@ -43,12 +58,7 @@
             android:layout_height="88dp"
             android:src="@drawable/venice" />
 
-        <Button
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Satellite" />
+
 
     </LinearLayout>
 
@@ -59,7 +69,17 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="800dp"
         android:layout_height="600dp"
-        tools:context=".MapsActivity" />
+        tools:context=".MapsActivity">
 
+
+        <Button
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Satellite" />
+
+
+    </fragment>
 
 </LinearLayout>
