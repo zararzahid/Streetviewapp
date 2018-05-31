@@ -4,7 +4,6 @@ package com.example.zarar.streetview;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +15,9 @@ import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
@@ -51,10 +52,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private StreetViewPanorama sStreet;
+    private Marker myMarker;
+
     private LatLng wsu = new LatLng(-33.811269, 151.024738);
     private LatLng opera = new LatLng(-33.858397, 151.213574);
     private LatLng paris = new LatLng(48.858093, 2.294694);
     private LatLng venice = new LatLng(45.437806, 12.335567);
+    private LatLng surfworld = new LatLng(-33.890311, 151.273802);
+    private LatLng park = new LatLng(-27.603669, 152.910308);
+    private LatLng pittstreet = new LatLng(-33.872688, 151.208149);
 
     private static final String LOG_TAG = "Google Places Autocomplete";
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
@@ -102,47 +108,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         //  method for on click on images and updating the map
-        ImageView img1 = findViewById(R.id.imageView1);
+        ImageView img1 = findViewById(R.id.opera);
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(opera));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-                mMap.addMarker(new MarkerOptions().position(opera).title("Opera House"));
+                sStreet.setPosition(opera);
 
             }
         });
 
-        ImageView img2 = findViewById(R.id.imageView2);
+        ImageView img2 = findViewById(R.id.paris);
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(paris));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-                mMap.addMarker(new MarkerOptions().position(paris).title("Eiffel Tower"));
+                sStreet.setPosition(paris);
+
 
             }
         });
 
-        ImageView img3 = findViewById(R.id.imageView3);
+        ImageView img3 = findViewById(R.id.venice);
         img3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(venice));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-                mMap.addMarker(new MarkerOptions().position(venice).title("Venice Canal"));
+                sStreet.setPosition(venice);
 
             }
         });
 
+        ImageView img4 = findViewById(R.id.surf);
+        img4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sStreet.setPosition(surfworld);
+
+            }
+        });
+
+        ImageView img5 = findViewById(R.id.park);
+        img5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sStreet.setPosition(park);
+
+            }
+        });
+
+        ImageView img6 = findViewById(R.id.pitt);
+        img6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sStreet.setPosition(pittstreet);
+
+            }
+        });
     }
 
 
     @Override
-    public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
+    public void onStreetViewPanoramaReady(final StreetViewPanorama panorama) {
         sStreet = panorama;
 
         panorama.setPosition(opera);
@@ -158,6 +188,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng pos = location.position;
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+
+                myMarker.setPosition(pos);
+
 
             }
         });
@@ -167,17 +201,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onStreetViewPanoramaCameraChange(StreetViewPanoramaCamera streetViewPanoramaCamera) {
 
-                StreetViewPanoramaLocation location = sStreet.getLocation();
+                if (streetViewPanoramaCamera.bearing >= 0 && streetViewPanoramaCamera.bearing <= 22.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p0));
 
-                Log.d("pos", location.toString());
+                } else if (streetViewPanoramaCamera.bearing >= 22.6 && streetViewPanoramaCamera.bearing <= 45) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p1));
+                } else if (streetViewPanoramaCamera.bearing >= 45.1 && streetViewPanoramaCamera.bearing <= 67.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p2));
+                } else if (streetViewPanoramaCamera.bearing >= 67.6 && streetViewPanoramaCamera.bearing <= 90) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p3));
+                } else if (streetViewPanoramaCamera.bearing >= 90.1 && streetViewPanoramaCamera.bearing <= 112.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p4));
+                } else if (streetViewPanoramaCamera.bearing >= 112.6 && streetViewPanoramaCamera.bearing <= 135) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p5));
+                } else if (streetViewPanoramaCamera.bearing >= 135.1 && streetViewPanoramaCamera.bearing <= 157.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p6));
+                } else if (streetViewPanoramaCamera.bearing >= 157.6 && streetViewPanoramaCamera.bearing <= 180) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p7));
+                } else if (streetViewPanoramaCamera.bearing >= 180.1 && streetViewPanoramaCamera.bearing <= 202.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p8));
+                } else if (streetViewPanoramaCamera.bearing >= 202.6 && streetViewPanoramaCamera.bearing <= 225) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p9));
+                } else if (streetViewPanoramaCamera.bearing >= 225.1 && streetViewPanoramaCamera.bearing <= 247.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p10));
+                } else if (streetViewPanoramaCamera.bearing >= 247.6 && streetViewPanoramaCamera.bearing <= 270) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p11));
+                } else if (streetViewPanoramaCamera.bearing >= 270.1 && streetViewPanoramaCamera.bearing <= 292.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p12));
+                } else if (streetViewPanoramaCamera.bearing >= 292.6 && streetViewPanoramaCamera.bearing <= 315) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p13));
 
-                LatLng pos = location.position;
+                } else if (streetViewPanoramaCamera.bearing >= 315.1 && streetViewPanoramaCamera.bearing <= 337.5) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p14));
+                } else if (streetViewPanoramaCamera.bearing >= 337.6 && streetViewPanoramaCamera.bearing <= 360) {
+                    myMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.p15));
+                }
 
-                Log.d("pos2", pos.toString());
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-                mMap.addMarker(new MarkerOptions().position(pos).title("Marker"));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
             }
         });
 
@@ -199,10 +258,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
 
-        mMap.addMarker(new MarkerOptions().position(wsu).title("My Marker"));
+        MarkerOptions a = new MarkerOptions().position(wsu).icon(BitmapDescriptorFactory.fromResource(R.drawable.p0));
+        myMarker = mMap.addMarker(a);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wsu));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(9));
         mMap.setMyLocationEnabled(true);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                sStreet.setPosition(latLng);
+
+
+            }
+        });
+
     }
 
 

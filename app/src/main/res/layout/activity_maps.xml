@@ -28,40 +28,80 @@
     </fragment>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
 
+            <ImageView
+                android:id="@+id/opera"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/opera" />
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:clickable="true"
-            android:onClick="imageClick"
-            android:layout_width="201dp"
-            android:layout_height="88dp"
-            android:src="@drawable/opera" />
+            <ImageView
+                android:id="@+id/paris"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/paris" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:clickable="true"
-            android:onClick="imageClick"
-            android:layout_width="161dp"
-            android:layout_height="88dp"
-            android:src="@drawable/paris" />
+            <ImageView
+                android:id="@+id/venice"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/venice" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:clickable="true"
-            android:onClick="imageClick"
-            android:layout_width="164dp"
-            android:layout_height="88dp"
-            android:src="@drawable/venice" />
+            <ImageView
+                android:id="@+id/surf"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/surfworld" />
+
+            <ImageView
+                android:id="@+id/park"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/wolstonpark" />
+
+            <ImageView
+                android:id="@+id/pitt"
+                android:layout_width="160dp"
+                android:layout_height="88dp"
+                android:clickable="true"
+                android:onClick="imageClick"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/pittstreet" />
 
 
+        </LinearLayout>
 
-    </LinearLayout>
-
+    </HorizontalScrollView>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
