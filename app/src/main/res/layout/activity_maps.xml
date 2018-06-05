@@ -13,16 +13,39 @@
         android:layout_height="600dp"
         tools:context=".MapsActivity">
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+        <RelativeLayout
+            android:id="@+id/relLayout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:hint="Enter Place Here">
+            android:background="@drawable/white_border"
+            android:elevation="10dp">
 
-            <requestFocus />
-        </AutoCompleteTextView>
+            <ImageView
+                android:id="@+id/ic_magnify"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_magnify" />
+
+            <AutoCompleteTextView
+                android:id="@+id/input_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ic_magnify"
+                android:background="@null"
+                android:hint="Enter Address, City or Zip Code"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+
+        </RelativeLayout>
 
 
     </fragment>
