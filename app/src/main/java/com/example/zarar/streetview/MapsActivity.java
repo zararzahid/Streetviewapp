@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -89,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker myMarker;
     private PlaceAutocompleteAdapter mPlaceAutoCompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
+
     //widgets
     private AutoCompleteTextView mSearchText;
 
@@ -112,11 +114,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
         mSearchText = findViewById(R.id.input_search);
+
 
 
 
@@ -231,14 +234,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH
                         || actionId == EditorInfo.IME_ACTION_DONE
-                        || actionId == EditorInfo.IME_ACTION_GO
-                        || actionId == EditorInfo.IME_ACTION_NEXT
-                        || actionId == EditorInfo.IME_ACTION_SEND
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
 
                     //execute our method for searching
                     geoLocate();
                 }
+
 
                 return false;
             }
@@ -314,9 +316,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-        mapFragment.getMapAsync(MapsActivity.this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void getLocationPermission() {
