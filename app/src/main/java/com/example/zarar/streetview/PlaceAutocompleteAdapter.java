@@ -85,8 +85,7 @@ public class PlaceAutocompleteAdapter
      */
     public PlaceAutocompleteAdapter(Context context, GoogleApiClient googleApiClient,
                                     LatLngBounds bounds, AutocompleteFilter filter) {
-        //super(context, android.R.layout.simple_expandable_list_item_2, android.R.id.text1);
-        super(context, android.R.layout.simple_expandable_list_item_2, android.R.id.input);
+        super(context, android.R.layout.simple_expandable_list_item_2, android.R.id.text1);
         mGoogleApiClient = googleApiClient;
         mBounds = bounds;
         mPlaceFilter = filter;

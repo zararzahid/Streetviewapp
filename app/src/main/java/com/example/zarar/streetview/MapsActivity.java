@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,6 +67,8 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback,
         GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String API_KEY = "AIzaSyCb-5Zvpe91N-yhfR1A_s0hP14Wh3GwdDw";
+
     private static final String TAG = "MapsActivity";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -74,13 +77,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
     //vars
-    private Boolean mLocationPermissionsGranted = false;
+
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleMap mMap;
     private StreetViewPanorama sStreet;
     private Marker myMarker;
-    private PlaceAutocompleteAdapter mPlaceAutoCompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
+    private GeoDataClient mGeoDataClient;
 
     //widgets
     private AutoCompleteTextView mSearchText;
@@ -97,7 +101,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
-    private static final String API_KEY = "------your api key here -------";
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -109,6 +112,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
+        mSearchText = findViewById(R.id.input_search);
+
+
+
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -116,12 +124,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .enableAutoManage(this, this)
                 .build();
 
-        mSearchText = findViewById(R.id.input_search);
-
-        mSearchText.setAdapter(mPlaceAutoCompleteAdapter);
-
-        mPlaceAutoCompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
+        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
                 LAT_LNG_BOUNDS, null);
+
+        mSearchText.setAdapter(mPlaceAutocompleteAdapter);
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -345,9 +351,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-
-
-
         // Add a marker in Sydney and move the camera
 
         MarkerOptions a = new MarkerOptions().position(wsu).icon(BitmapDescriptorFactory.fromResource(R.drawable.p0));
@@ -360,7 +363,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onMapClick(LatLng latLng) {
 
-                
+
                 float zoom = mMap.getCameraPosition().zoom;
 
                 if (zoom >= 0 && zoom <= 5) {
@@ -372,8 +375,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else if (zoom >= 13.1 && zoom <= 20) {
                     sStreet.setPosition(latLng, 50);
                 }
-
-
 
 
 
