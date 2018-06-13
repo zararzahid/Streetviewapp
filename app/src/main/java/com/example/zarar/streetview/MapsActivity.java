@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -76,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final float DEFAULT_ZOOM = 15f;
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
+
+
     //vars
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -88,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //widgets
     private AutoCompleteTextView mSearchText;
-
+    //static latitude longitudes of bookmark images
     private LatLng wsu = new LatLng(-33.811269, 151.024738);
     private LatLng opera = new LatLng(-33.858397, 151.213574);
     private LatLng paris = new LatLng(48.858093, 2.294694);
@@ -115,8 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mSearchText = findViewById(R.id.input_search);
 
-
-
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -128,6 +129,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LAT_LNG_BOUNDS, null);
 
         mSearchText.setAdapter(mPlaceAutocompleteAdapter);
+
+        mSearchText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                geoLocate();
+            }
+        });
+
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -256,6 +265,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d(TAG, "geoLocate: found a location" + address.toString());
             sStreet.setPosition(new LatLng(address.getLatitude(), address.getLongitude()));
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
         }
 
 
@@ -268,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sStreet = panorama;
 
         panorama.setPosition(opera);
-
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
 
         sStreet.setOnStreetViewPanoramaChangeListener(new StreetViewPanorama.OnStreetViewPanoramaChangeListener() {
             @Override
@@ -280,7 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng pos = location.position;
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-                //mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+
 
                 myMarker.setPosition(pos);
 
