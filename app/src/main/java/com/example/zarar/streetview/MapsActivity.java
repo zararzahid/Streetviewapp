@@ -64,10 +64,10 @@ import java.util.List;
         panorama.setPosition(new LatLng(33.811814,151.025127));
     }*/
 
-
+// main class
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback,
         GoogleApiClient.OnConnectionFailedListener {
-
+    //our google api key, this is a verification for google
     private static final String API_KEY = "AIzaSyCb-5Zvpe91N-yhfR1A_s0hP14Wh3GwdDw";
 
     private static final String TAG = "MapsActivity";
@@ -105,30 +105,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
 
+    // this is for our autocomplete adapter checking for conneciton to google api client
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
+    // this is our oncreate function, it runs everything below as the app is created
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-
+        //connects java msearchtext to xml inout search
         mSearchText = findViewById(R.id.input_search);
 
+        // google places google api client, finds location data for autofilling search bar with google places
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
-
+        //adapter for our google places api
         mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
                 LAT_LNG_BOUNDS, null);
-
+        //set the adapter on mSearchText
         mSearchText.setAdapter(mPlaceAutocompleteAdapter);
+
+        //this sets an onitemclick listener to mSearchText
+        //when someone clicks on an item in the drop down list automatically created by places auto complete
+        //we call geoLocate(); which can be found on line 253
 
         mSearchText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -137,7 +144,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
+        //similar to on click listener, instead listens for when someone clicks enter on keyboard
+        // or clicks the search button
+        //calls geolocate which can be found on line 253
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -155,14 +164,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        //a click listener on the button that changes map type
+        //also changes what the button message is
         final Button button = findViewById(R.id.type);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +192,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         //  method for on click on images and updating the map
+
+        //sStreet is our street view object.
+
+        //setPosition is a function within Street View and it takes coordinates and
+        //moves us to those coordinates.
+        //since it is streetview it uses the coordinates to find a panorama id
+        //this moves street view to the right panorama
+
         ImageView img1 = findViewById(R.id.opera);
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +209,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //on click listener, listens for click on an image and takes you to coordinates of paris
+        // these coordinates are set at the top of the file
         ImageView img2 = findViewById(R.id.paris);
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //this is the same as the other images
         ImageView img3 = findViewById(R.id.venice);
         img3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //same as other images
         ImageView img4 = findViewById(R.id.surf);
         img4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //same as other images
         ImageView img5 = findViewById(R.id.park);
         img5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +251,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //same as other images
         ImageView img6 = findViewById(R.id.pitt);
         img6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +263,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    //geolocate takes a search string and finds a place that matches the string and takes us there
+    //this function also gives us the coordinates of our location and finds the closest panorama id
+    //then sets our street view to that panorama
     private void geoLocate() {
         String searchString = mSearchText.getText().toString();
 
@@ -273,6 +293,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //changes to the map on changing the panormama
+
+    //this is called when the app starts
+    //sets panorama start position
+    //sets a default map zoom
+    //then we have a function that listens for panorama changes to the street view
+    //so when the street view changes, we make changes to the map
+    //we make coordinate changes here
+    //these are only changes to the panorama id and not the camera, that is below
+
+
     @Override
     public void onStreetViewPanoramaReady(final StreetViewPanorama panorama) {
         sStreet = panorama;
@@ -297,6 +327,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+
+        //this is a panorama camera change listener that updates whenever the camera is moved not the panorama id
+        //we update the pegman icon on the map as we change bearing on the panorama
 
         //Adding pegman to the map and its facing directions
         sStreet.setOnStreetViewPanoramaCameraChangeListener(new StreetViewPanorama.OnStreetViewPanoramaCameraChangeListener() {
@@ -369,12 +402,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
 
+        //this listens for clicks on the map
+        //we then move the map and center it on wherever is clicked
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
 
 
                 float zoom = mMap.getCameraPosition().zoom;
+
+                //this changes the panorama search radius depending on map zoom level.
+                //if you are at country zoom the radius is much larger
+                //if you are at street zoom it is much smaller and accurate
 
                 if (zoom >= 0 && zoom <= 5) {
                     sStreet.setPosition(latLng, 500000);
@@ -397,4 +437,3 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 }
 
 
-//make some changes
